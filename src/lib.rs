@@ -29,7 +29,7 @@ pub fn get_day(day: u32) -> (DayFn, DayFn) {
     return match day {
         1 => aoc!(01),
         _ => {
-            println!("Unknown day: {}", day);
+            eprintln!("Unknown day: {}", day);
             return (noop, noop);
         }
     };

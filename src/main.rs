@@ -1,7 +1,6 @@
 // Credit to Repl.it Advent of Code Template
 use std::env;
 use std::fs;
-use std::io;
 use std::time::{Duration, Instant};
 
 use anyhow::{anyhow, Context, Result};
@@ -32,28 +31,10 @@ fn fmt_dur(dur: Duration) -> String {
     return fmt_time(dur.as_secs_f64() * 1000.0);
 }
 
-fn main() -> Result<()> {
-    // Get day string
-    let args: Vec<String> = env::args().collect();
-    let mut day = String::new();
-
-    if args.len() >= 2 {
-        day = args[1].clone();
-    } else {
-        println!("Enter day: ");
-        io::stdin()
-            .read_line(&mut day)
-            .expect("Failed to read line");
-    }
-    // Parse day as number
-    day = day.trim().to_string();
-    let day_num: u32 = day
-        .parse()
-        .map_err(|e| anyhow!("Invalid day number {:?}, Err: {:?}", day, e))?;
-
+fn run_day(day: u32) -> Result<()> {
     // Read input file
     let cwd = env::current_dir().context("Failed to get current_dir")?;
-    let filename = cwd.join("input").join(format!("day{:02}.txt", day_num));
+    let filename = cwd.join("input").join(format!("day{:02}.txt", day));
     println!("Reading {}", filename.display());
     let input = fs::read_to_string(&filename)
         .context(format!("Error while reading input from {:?}", filename))?;
@@ -61,10 +42,10 @@ fn main() -> Result<()> {
     println!("---------------------");
 
     // Get corresponding function
-    let to_run = get_day(day_num);
+    let to_run = get_day(day);
     // Time it
     if to_run.0 != noop {
-        println!("Day {} - Part 1: ", day_num);
+        println!("Day {} - Part 1: ", day);
         let part1_start = Instant::now();
         println!("    {:?}", to_run.0(input.clone()));
         let part1_dur = part1_start.elapsed();
@@ -74,7 +55,7 @@ fn main() -> Result<()> {
     println!("---------------------");
 
     if to_run.1 != noop {
-        println!("Day {} - Part 2: ", day_num);
+        println!("Day {} - Part 2: ", day);
         let part2_start = Instant::now();
         println!("    {:?}", to_run.1(input.clone()));
         let part2_dur = part2_start.elapsed();
@@ -82,6 +63,25 @@ fn main() -> Result<()> {
     }
 
     println!("---------------------");
+    Ok(())
+}
 
+fn main() -> Result<()> {
+    // Get day string
+    let args: Vec<String> = env::args().collect();
+    if args.len() >= 2 {
+        let day = args[1].trim();
+        let day_num: u32 = day
+            .parse()
+            .map_err(|e| anyhow!("Invalid day number {:?}, Err: {:?}", day, e))?;
+
+        run_day(day_num)?;
+    } else {
+        let mut n = 1;
+        while get_day(n) != (noop, noop) {
+            run_day(n)?;
+            n += 1;
+        }
+    }
     Ok(())
 }
