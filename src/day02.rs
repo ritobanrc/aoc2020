@@ -1,22 +1,34 @@
+use anyhow::{anyhow, Result};
 use itertools::Itertools;
 
-fn parse(input: &str) -> Vec<(usize, usize, char, &str)> {
-    input
+fn parse(input: &str) -> Result<Vec<(usize, usize, char, &str)>> {
+    Ok(input
         .lines()
         .map(|line| {
-            let (range, c, passwd) = line.split(' ').collect_tuple().unwrap();
-            let (min, max) = range.split('-').collect_tuple().unwrap();
-            let (min, max) = (min.parse().unwrap(), max.parse().unwrap());
+            let (range, c, passwd) = line
+                .split(' ')
+                .collect_tuple()
+                .ok_or(anyhow!("Failed to split input line"))?;
 
-            let c = c.chars().next().unwrap();
+            let (min, max) = range
+                .split('-')
+                .collect_tuple()
+                .ok_or(anyhow!("Failed to parse range."))?;
 
-            (min, max, c, passwd)
+            let (min, max): (usize, usize) = (min.parse()?, max.parse()?);
+
+            let c = c
+                .chars()
+                .next()
+                .ok_or(anyhow!("Failed to prase character"))?;
+
+            Ok((min, max, c, passwd))
         })
-        .collect()
+        .collect::<Result<Vec<_>>>()?)
 }
 
 pub fn part1(input: String) -> usize {
-    let input = parse(&input);
+    let input = parse(&input).expect("Day 02 Part 1 -- Failed to Parse");
     input
         .into_iter()
         .filter(|(min, max, c, passwd)| {
@@ -27,7 +39,7 @@ pub fn part1(input: String) -> usize {
 }
 
 pub fn part2(input: String) -> usize {
-    let input = parse(&input);
+    let input = parse(&input).expect("Day 02 Part 2 -- Failed to Parse");
 
     input
         .into_iter()
