@@ -20,6 +20,7 @@ name = "aoc2020"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "combine",
  "euclid",
  "itertools",
  "paste",
@@ -31,6 +32,23 @@ name = "autocfg"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
+
+[[package]]
+name = "bytes"
+version = "0.5.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0e4cec68f03f32e44924783795810fa50a7035d8c8ebe78580ad7e6c703fba38"
+
+[[package]]
+name = "combine"
+version = "4.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b9417a0c314565e2abffaece67e95a8cb51f9238cd39f3764d9dfdf09e72b20c"
+dependencies = [
+ "bytes",
+ "memchr",
+ "pin-project-lite",
+]
 
 [[package]]
 name = "either"
@@ -82,6 +100,12 @@ name = "paste"
 version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7151b083b0664ed58ed669fcdd92f01c3d2fdbf10af4931a301474950b52bfa9"
+
+[[package]]
+name = "pin-project-lite"
+version = "0.1.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c917123afa01924fc84bb20c4c03f004d9c38e5127e3c039bbf7f4b9c76a2f6b"
 
 [[package]]
 name = "regex"

@@ -2,10 +2,10 @@
 
 # Credit to haskelling for this file. From https://github.com/haskelling/aoc2020/blob/main/get
 
-cd "$(dirname "$0")"
+#cd "$(dirname "$0")"
 
 if [ -r .cookie ]; then
-  . .cookie
+  source .cookie
 fi
 
 export TZ=EST
