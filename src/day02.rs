@@ -30,7 +30,7 @@ fn parse(input: &str) -> Result<Vec<(usize, usize, char, &str)>> {
 // Parser combinator approach
 fn parse2(input: &str) -> Vec<(usize, usize, char, String)> {
     use combine::{
-        many1,
+        from_str, many1,
         parser::char::{digit, letter, space},
         token, Parser,
     };
@@ -38,20 +38,16 @@ fn parse2(input: &str) -> Vec<(usize, usize, char, String)> {
         .lines()
         .map(|line| {
             (
-                many1::<String, _, _>(digit()),
+                from_str(many1::<String, _, _>(digit())),
                 token('-'),
-                many1::<String, _, _>(digit()),
+                from_str(many1::<String, _, _>(digit())),
                 space(),
                 letter(),
                 token(':'),
                 space(),
                 many1::<String, _, _>(letter()),
             )
-                .map(|(min, _, max, _, c, _, _, passwd)| {
-                    let min: usize = str::parse(&min).unwrap();
-                    let max: usize = str::parse(&max).unwrap();
-                    (min, max, c, passwd)
-                })
+                .map(|(min, _, max, _, c, _, _, passwd)| (min, max, c, passwd))
                 .parse(line)
                 .unwrap()
                 .0

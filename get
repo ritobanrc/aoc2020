@@ -8,10 +8,9 @@ if [ -r .cookie ]; then
   source .cookie
 fi
 
-export TZ=EST
 thisyear="$(date +%Y)"
 thismonth="$(date +%m)"
-thisday="$(date +%d)"
+thisday="$(TZ=EST date +%d)"
 
 year=2020
 for day in {1..25}; do
@@ -22,5 +21,6 @@ for day in {1..25}; do
   if [ -r "$filename" ]; then
     continue  # make sure we don't fetch the same file twice!
   fi
+  echo "Fetching $filename"
   curl -sS -o "$filename" -b "$AOC_COOKIE" https://adventofcode.com/"$year"/day/"$day"/input
 done

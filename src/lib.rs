@@ -1,6 +1,7 @@
 // Days
 pub mod day01;
 pub mod day02;
+pub mod day03;
 
 pub fn noop(_inp: String) -> Box<dyn std::fmt::Debug> {
     Box::new(())
@@ -70,6 +71,7 @@ pub fn get_day(day: u32) -> (DayFn, DayFn) {
     return match day {
         1 => aoc!(01, 539851, 212481360),
         2 => aoc!(02, 524, 485),
+        3 => aoc!(03, 156, 3521829480),
         _ => {
             eprintln!("Unknown day: {}", day);
             return (noop, noop);
