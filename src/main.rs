@@ -37,7 +37,7 @@ fn run_day(day: u32) -> Result<()> {
     let filename = cwd.join("input").join(format!("day{:02}.txt", day));
     println!("Reading {}", filename.display());
     let input = fs::read_to_string(&filename)
-        .context(format!("Error while reading input from {:?}", filename))?;
+        .context(format!("Failed to read input from {:?}", filename))?;
 
     println!("---------------------");
 
