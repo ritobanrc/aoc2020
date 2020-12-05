@@ -1,0 +1,65 @@
+use std::collections::HashSet;
+
+use itertools::iproduct;
+
+fn parse_row(row_str: &str) -> u8 {
+    let mut row = 0u8;
+    row_str.chars().for_each(|c| {
+        row = row << 1;
+        match c {
+            'B' => row += 1,
+            _ => return,
+        }
+    });
+    row
+}
+
+fn parse_col(col_str: &str) -> u8 {
+    let mut col = 0u8;
+    col_str.chars().for_each(|c| {
+        col = col << 1;
+        match c {
+            'R' => col += 1,
+            _ => return,
+        }
+    });
+    col
+}
+
+pub fn part1(input: String) -> u32 {
+    input
+        .lines()
+        .map(|line| {
+            let row = parse_row(&line[..7]) as u32;
+            let col = parse_col(&line[7..]) as u32;
+            row * 8 + col
+        })
+        .max()
+        .expect("Day 5 Part 1 Failed")
+}
+
+pub fn part2(input: String) -> u32 {
+    let mut seats: HashSet<_> = iproduct!(0..128, 0..8)
+        .map(|(row, col)| row * 8 + col)
+        .collect();
+
+    input.lines().for_each(|line| {
+        let row = parse_row(&line[..7]) as u32;
+        let col = parse_col(&line[7..]) as u32;
+
+        seats.remove(&(row * 8 + col));
+    });
+
+    for seat in seats.iter() {
+        if !(seats.contains(&(seat + 1)) && seats.contains(&(seat - 1))) {
+            return *seat;
+        }
+    }
+    0
+}
+
+#[test]
+fn day05_test() {
+    dbg!(parse_row("FBFBBFF"));
+    dbg!(parse_col("RLR"));
+}
