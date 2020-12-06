@@ -6,8 +6,7 @@ pub fn part1(input: String) -> usize {
         .map(|group| {
             group
                 .lines()
-                .map(|l| l.chars())
-                .flatten()
+                .flat_map(|l| l.chars())
                 .collect::<HashSet<_>>()
                 .len()
         })

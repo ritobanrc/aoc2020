@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use itertools::iproduct;
+use itertools::{iproduct, Itertools};
 
 fn parse_row(row_str: &str) -> u8 {
     let mut row = 0u8;
@@ -39,23 +39,23 @@ pub fn part1(input: String) -> u32 {
 }
 
 pub fn part2(input: String) -> u32 {
-    let mut seats: HashSet<_> = iproduct!(0..128, 0..8)
-        .map(|(row, col)| row * 8 + col)
+    let mut seat_ids: Vec<_> = input
+        .lines()
+        .map(|line| {
+            let row = parse_row(&line[..7]) as u32;
+            let col = parse_col(&line[7..]) as u32;
+
+            row * 8 + col
+        })
         .collect();
 
-    input.lines().for_each(|line| {
-        let row = parse_row(&line[..7]) as u32;
-        let col = parse_col(&line[7..]) as u32;
-
-        seats.remove(&(row * 8 + col));
-    });
-
-    for seat in seats.iter() {
-        if !(seats.contains(&(seat + 1)) && seats.contains(&(seat - 1))) {
-            return *seat;
-        }
-    }
-    0
+    seat_ids.sort_unstable();
+    seat_ids
+        .iter()
+        .tuple_windows()
+        .filter_map(|(a, b)| if b - a > 1 { Some(a + 1) } else { None })
+        .next()
+        .unwrap()
 }
 
 #[test]
