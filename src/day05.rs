@@ -1,6 +1,4 @@
-use std::collections::HashSet;
-
-use itertools::{iproduct, Itertools};
+use itertools::Itertools;
 
 fn parse_row(row_str: &str) -> u8 {
     let mut row = 0u8;
