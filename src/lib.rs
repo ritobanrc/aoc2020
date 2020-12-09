@@ -7,6 +7,7 @@ pub mod day05;
 pub mod day06;
 pub mod day07;
 pub mod day08;
+pub mod day09;
 
 pub fn noop(_inp: String) -> Box<dyn std::fmt::Debug> {
     Box::new(())
@@ -14,6 +15,7 @@ pub fn noop(_inp: String) -> Box<dyn std::fmt::Debug> {
 
 pub type DayFn = fn(String) -> Box<dyn std::fmt::Debug>;
 
+#[derive(Debug, Copy, Clone, Eq, PartialEq)]
 pub enum Part {
     Part1,
     Part2,
@@ -82,6 +84,7 @@ pub fn get_day(day: u32) -> (DayFn, DayFn) {
         6 => aoc!(06, 6534, 3402),
         7 => aoc!(07, 316, 11310),
         8 => aoc!(08, 2051, 2304),
+        9 => aoc!(with_enum: 09),
         _ => {
             eprintln!("Unknown day: {}", day);
             return (noop, noop);

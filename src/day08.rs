@@ -69,7 +69,7 @@ pub fn part2(input: String) -> isize {
         match ins {
             (Instruction::Nop, n) => *ins = (Instruction::Jmp, *n),
             (Instruction::Jmp, n) => *ins = (Instruction::Nop, *n),
-            _ => {}
+            _ => continue, // If no change, no point in running the program just to check
         }
 
         if let Ok(acc) = run_program(&instructions) {
