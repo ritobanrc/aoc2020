@@ -27,25 +27,36 @@ fn parse(input: &str) -> Rules {
         .collect()
 }
 
-fn contains_gold<'a>(color: Color<'a>, rules: &Rules<'a>) -> bool {
+fn contains_gold<'a>(
+    color: Color<'a>,
+    rules: &Rules<'a>,
+    memo: &mut HashMap<Color<'a>, bool>,
+) -> bool {
+    if let Some(result) = memo.get(&color) {
+        return *result;
+    }
+
     if color == ("shiny", "gold") {
         return true;
     }
 
     for inside in rules[&color].iter() {
-        if contains_gold(inside.1, rules) {
+        if contains_gold(inside.1, rules, memo) {
+            memo.insert(color, true);
             return true;
         }
     }
 
+    memo.insert(color, false);
     return false;
 }
 
 pub fn part1(input: String) -> usize {
     let rules = parse(&input);
+    let mut memo = HashMap::new();
     rules
         .keys()
-        .filter(|&&color| color != ("shiny", "gold") && contains_gold(color, &rules))
+        .filter(|&&color| color != ("shiny", "gold") && contains_gold(color, &rules, &mut memo))
         .count()
 }
 
