@@ -148,5 +148,5 @@ fn day11_test() {
         .trim();
 
     assert_eq!(37, solutions(input.to_owned(), Part::Part1));
-    assert_eq!(27, solutions(input.to_owned(), Part::Part2));
+    assert_eq!(26, solutions(input.to_owned(), Part::Part2));
 }
