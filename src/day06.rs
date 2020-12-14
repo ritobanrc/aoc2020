@@ -4,11 +4,10 @@ pub fn part1(input: String) -> usize {
     input
         .split("\n\n")
         .map(|group| {
-            group
-                .lines()
-                .flat_map(|l| l.chars())
-                .collect::<HashSet<_>>()
-                .len()
+            let mut v = group.lines().flat_map(|l| l.chars()).collect::<Vec<_>>();
+            v.sort();
+            v.dedup();
+            v.len()
         })
         .sum()
 }
