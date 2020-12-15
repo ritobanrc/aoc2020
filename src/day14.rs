@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 
 pub fn part1(input: String) -> u64 {
     let mut mask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
@@ -26,17 +26,19 @@ pub fn part1(input: String) -> u64 {
     mem.values().sum()
 }
 
+#[inline(always)]
 fn set_0(index: usize, bit: usize) -> usize {
     index & !(1 << bit)
 }
 
+#[inline(always)]
 fn set_1(index: usize, bit: usize) -> usize {
     index | (1 << bit)
 }
 
 pub fn part2(input: String) -> u64 {
     let mut mask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-    let mut mem = HashMap::new();
+    let mut mem = BTreeMap::new();
     for line in input.lines() {
         if line.starts_with("mem") {
             let mut index: usize = line[4..line.find(']').unwrap()].parse().unwrap();

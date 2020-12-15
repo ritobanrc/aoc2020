@@ -31,13 +31,15 @@ fn fmt_dur(dur: Duration) -> String {
     return fmt_time(dur.as_secs_f64() * 1000.0);
 }
 
-fn run_day(day: u32) -> Result<()> {
+fn run_day(day: u32) -> Result<Duration> {
     // Read input file
     let cwd = env::current_dir().context("Failed to get current_dir")?;
     let filename = cwd.join("input").join(format!("day{:02}.txt", day));
     println!("Reading {}", filename.display());
     let input = fs::read_to_string(&filename)
         .context(format!("Failed to read input from {:?}", filename))?;
+
+    let mut total = Duration::new(0, 0);
 
     println!("---------------------");
 
@@ -50,6 +52,7 @@ fn run_day(day: u32) -> Result<()> {
         println!("    {:?}", to_run.0(input.clone()));
         let part1_dur = part1_start.elapsed();
         println!("    Time: {}", fmt_dur(part1_dur));
+        total += part1_dur;
     }
 
     println!("---------------------");
@@ -60,10 +63,11 @@ fn run_day(day: u32) -> Result<()> {
         println!("    {:?}", to_run.1(input.clone()));
         let part2_dur = part2_start.elapsed();
         println!("    Time: {}", fmt_dur(part2_dur));
+        total += part2_dur
     }
 
     println!("---------------------");
-    Ok(())
+    Ok(total)
 }
 
 fn main() -> Result<()> {
@@ -77,11 +81,14 @@ fn main() -> Result<()> {
 
         run_day(day_num)?;
     } else {
+        let mut total = Duration::new(0, 0);
         let mut n = 1;
         while get_day(n) != (noop, noop) {
-            run_day(n)?;
+            total += run_day(n)?;
             n += 1;
         }
+
+        println!("Total Duration: {:?}", total);
     }
     Ok(())
 }
