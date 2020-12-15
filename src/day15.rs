@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::collections::HashMap;
 
 use crate::Part;
 
@@ -9,7 +9,7 @@ pub fn solutions(input: String, part: Part) -> u32 {
         .map(|n| n.parse().unwrap())
         .collect();
 
-    let mut last_spoken = BTreeMap::new();
+    let mut last_spoken = HashMap::new();
     for (i, n) in starting_nums.iter().enumerate() {
         last_spoken.insert(*n, i + 1);
     }
