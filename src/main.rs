@@ -3,8 +3,6 @@ use std::env;
 use std::fs;
 use std::time::{Duration, Instant};
 
-use anyhow::{anyhow, Context, Result};
-
 use aoc2020::{get_day, noop};
 
 fn fmt_time(ms: f64) -> String {
@@ -31,13 +29,12 @@ fn fmt_dur(dur: Duration) -> String {
     return fmt_time(dur.as_secs_f64() * 1000.0);
 }
 
-fn run_day(day: u32) -> Result<Duration> {
+fn run_day(day: u32) -> std::io::Result<Duration> {
     // Read input file
-    let cwd = env::current_dir().context("Failed to get current_dir")?;
+    let cwd = env::current_dir()?;
     let filename = cwd.join("input").join(format!("day{:02}.txt", day));
     println!("Reading {}", filename.display());
-    let input = fs::read_to_string(&filename)
-        .context(format!("Failed to read input from {:?}", filename))?;
+    let input = fs::read_to_string(&filename)?;
 
     let mut total = Duration::new(0, 0);
 
@@ -70,14 +67,12 @@ fn run_day(day: u32) -> Result<Duration> {
     Ok(total)
 }
 
-fn main() -> Result<()> {
+fn main() -> std::io::Result<()> {
     // Get day string
     let args: Vec<String> = env::args().collect();
     if args.len() >= 2 {
         let day = args[1].trim();
-        let day_num: u32 = day
-            .parse()
-            .map_err(|e| anyhow!("Invalid day number {:?}, Err: {:?}", day, e))?;
+        let day_num: u32 = day.parse().expect("Failed to parse day number");
 
         run_day(day_num)?;
     } else {
