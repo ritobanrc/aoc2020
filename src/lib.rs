@@ -100,7 +100,7 @@ pub fn get_day(day: u32) -> (DayFn, DayFn) {
         14 => aoc!(14, 3059488894985, 2900994392308),
         15 => aoc!(with_enum: 15, 240, 505),
         16 => aoc!(16, 28884, 1001849322119),
-        17 => aoc!(17, 386),
+        17 => aoc!(17, 386, 2276),
         _ => {
             eprintln!("Unknown day: {}", day);
             return (noop, noop);
