@@ -1,4 +1,7 @@
-use std::{collections::{HashMap, HashSet}, ops::Add};
+use std::{
+    collections::{HashMap, HashSet},
+    ops::Add,
+};
 
 use euclid::{default::Vector3D, vec3};
 use itertools::iproduct;
@@ -10,7 +13,6 @@ impl From<Coord> for Vector3D<i64> {
         vec3(c.0, c.1, 0)
     }
 }
-
 
 fn parse_grid<V: From<Coord> + std::hash::Hash + Eq>(input: &str) -> HashSet<V> {
     let mut grid = HashSet::new();
@@ -25,9 +27,10 @@ fn parse_grid<V: From<Coord> + std::hash::Hash + Eq>(input: &str) -> HashSet<V> 
     grid
 }
 
-
-fn solutions<V>(input: String, deltas: impl Iterator<Item=V> + Clone) -> usize 
-where V: From<Coord> + std::hash::Hash + Eq + Add<V, Output=V> + Copy {
+fn solutions<V>(input: String, deltas: impl Iterator<Item = V> + Clone) -> usize
+where
+    V: From<Coord> + std::hash::Hash + Eq + Add<V, Output = V> + Copy,
+{
     // Thanks to u/SuperSmurfen for coming up with this idea, will definitely use again in the future
     let mut active_cells: HashSet<V> = parse_grid(&input);
 
@@ -58,7 +61,12 @@ where V: From<Coord> + std::hash::Hash + Eq + Add<V, Output=V> + Copy {
 }
 
 pub fn part1(input: String) -> usize {
-    solutions(input, iproduct!(-1..=1, -1..=1, -1..=1).map(Vector3D::from).filter(|&v| v != Vector3D::zero()))
+    solutions(
+        input,
+        iproduct!(-1..=1, -1..=1, -1..=1)
+            .map(Vector3D::from)
+            .filter(|&v| v != Vector3D::zero()),
+    )
 }
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash, Default)]
@@ -104,8 +112,12 @@ impl Add<Vector4D> for Vector4D {
 }
 
 pub fn part2(input: String) -> usize {
-    solutions(input, iproduct!(-1..=1, -1..=1, -1..=1, -1..=1).map(Vector4D::from).filter(|&v| v != Vector4D::default()))
-
+    solutions(
+        input,
+        iproduct!(-1..=1, -1..=1, -1..=1, -1..=1)
+            .map(Vector4D::from)
+            .filter(|&v| v != Vector4D::default()),
+    )
 }
 
 #[test]
