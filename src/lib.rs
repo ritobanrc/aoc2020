@@ -41,7 +41,8 @@ macro_rules! aoc {
             paste::item! { let ans = [<day $day>]::solutions(input, Part::Part1); }
             assert_eq!(ans, $ans1);
             Box::new(ans)
-        }, |input| Box::new([<day $day>]::solutions(input, Part::Part2)))
+        }, |input| Box::new([<day $day>]::solutions(input, Part::Part2))
+        )
     };
     (with_enum:$day: expr, $ans1: expr, $ans2: expr) => {
         (|input| {
@@ -102,7 +103,7 @@ pub fn get_day(day: u32) -> (DayFn, DayFn) {
         15 => aoc!(with_enum: 15, 240, 505),
         16 => aoc!(16, 28884, 1001849322119),
         17 => aoc!(17, 386, 2276),
-        18 => aoc!(18),
+        18 => aoc!(with_enum: 18, 45283905029161, 216975281211165),
         _ => {
             eprintln!("Unknown day: {}", day);
             return (noop, noop);
